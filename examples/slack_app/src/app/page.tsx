@@ -1,7 +1,11 @@
 import Image from "next/image";
-import AddToSlackButton from "@/components/AddToSlackButton";
+import SlackConnectionStatus from "@/components/SlackConnectionStatus";
+import SlackInstallSection from "@/components/SlackInstallSection";
+import { getSlackStatus } from "./actions";
 
-export default function Home() {
+export default async function Home() {
+  const slackStatus = await getSlackStatus();
+
   return (
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
       <header className="mb-8">
@@ -12,6 +16,11 @@ export default function Home() {
       </header>
 
       <main className="max-w-3xl">
+        <SlackConnectionStatus 
+          initialHasToken={slackStatus.hasToken} 
+          initialTeamName={slackStatus.teamName}
+        />
+
         <div className="space-y-8">
           <section className="border border-gray-200 dark:border-gray-800 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Step 1: Create a Slack App</h2>
@@ -31,7 +40,8 @@ export default function Home() {
                 <ul className="list-disc list-inside ml-6 mt-2">
                   <li>chat:write</li>
                   <li>channels:read</li>
-                  <li>commands</li>
+                  <li>channels:history</li>
+                  <li>incoming-webhook</li>
                 </ul>
               </li>
               <li>
@@ -51,7 +61,7 @@ export default function Home() {
             <h2 className="text-xl font-semibold mb-4">Step 3: Install App to Workspace</h2>
             <p className="mb-3">You can install this app to your Slack workspace directly using the button below:</p>
             <div className="my-4">
-              <AddToSlackButton />
+              <SlackInstallSection initialHasToken={slackStatus.hasToken} />
             </div>
             <p className="mt-3">Or follow these steps manually:</p>
             <ol className="list-decimal list-inside space-y-3">

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { installer } from '@/lib/slack';
+import { storeToken } from '@/lib/token-store';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -58,18 +59,24 @@ export async function GET(request: NextRequest) {
     }
     
     // Successfully authenticated with Slack!
-    // In a real application, you would store the tokens in a database
     console.log('Authentication successful!');
     console.log('Access token received for team:', data.team?.name || 'Unknown team');
     
-    // Store tokens securely (this is just for demonstration)
-    // In production, you would store these in a database
-    if (data.team?.id) {
-      console.log(`Tokens for team ${data.team.id} would be stored in a database`);
-    }
+    // Store token in memory (server-side only)
+    const tokenData = {
+      accessToken: data.access_token,
+      teamId: data.team?.id,
+      teamName: data.team?.name,
+      botUserId: data.bot_user_id,
+    };
     
-    // Redirect to success page
-    return NextResponse.redirect(new URL('/auth/success', baseUrl));
+    storeToken(tokenData);
+    
+    // Double-check that the token was stored
+    console.log('Token stored, redirecting to success page');
+    
+    // Redirect to a special callback page that will store the token in localStorage
+    return NextResponse.redirect(new URL(`/auth/callback?token=${encodeURIComponent(JSON.stringify(tokenData))}`, baseUrl));
   } catch (error: any) {
     console.error('Error handling Slack callback:', error);
     console.error('Error details:', {
