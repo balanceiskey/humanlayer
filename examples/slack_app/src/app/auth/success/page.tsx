@@ -5,104 +5,65 @@ import Link from 'next/link';
 
 export default function AuthSuccess() {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [tokenInfo, setTokenInfo] = useState<{ teamName: string } | null>(null);
+  const [teamName, setTeamName] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if token is already in localStorage (from callback page)
-    try {
-      const storedToken = localStorage.getItem('slackToken');
-      if (storedToken) {
-        const parsedToken = JSON.parse(storedToken);
-        setTokenInfo({ teamName: parsedToken.teamName || 'Unknown' });
-        setIsLoading(false);
-        
-        // Redirect after a delay
-        const timer = setTimeout(() => {
-          window.location.href = '/';
-        }, 5000);
-        
-        return () => clearTimeout(timer);
-      }
-    } catch (error) {
-      console.error('Error checking localStorage:', error);
-    }
-    
-    // If no token in localStorage, fetch from server
-    async function checkTokenStatus() {
+    // Fetch token status from the server
+    const fetchTokenStatus = async () => {
       try {
         const response = await fetch('/api/auth/slack/status');
         const data = await response.json();
         
         if (data.hasToken) {
-          // Store token info in localStorage for client-side persistence
-          localStorage.setItem('slackToken', JSON.stringify({
-            accessToken: data.accessToken,
-            teamId: data.teamId,
-            teamName: data.teamName,
-            botUserId: data.botUserId
-          }));
-          setTokenInfo({ teamName: data.teamName || 'Unknown' });
-          console.log('Token information stored in localStorage');
-        } else {
-          console.error('No token found in server response');
-          setError('No token found in server response. Authentication may have failed.');
+          setTeamName(data.teamName);
         }
-      } catch (error) {
-        console.error('Error checking token status:', error);
-        setError('Error checking token status. Please try again.');
-      } finally {
+        
         setIsLoading(false);
-        
-        // Redirect after a delay
-        const timer = setTimeout(() => {
-          window.location.href = '/';
-        }, 5000);
-        
-        return () => clearTimeout(timer);
+      } catch (error) {
+        console.error('Error fetching token status:', error);
+        setIsLoading(false);
       }
-    }
+    };
     
-    checkTokenStatus();
+    fetchTokenStatus();
   }, []);
 
   return (
-    <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
-      <div className="max-w-md mx-auto text-center mt-16">
-        <div className={`p-4 rounded-lg mb-6 ${error ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
-          <h1 className="text-2xl font-bold mb-2">{error ? 'Warning' : 'Success!'}</h1>
-          <p>{error || 'Your Slack app has been successfully installed.'}</p>
-          {tokenInfo && (
-            <p className="mt-2">Connected to workspace: <strong>{tokenInfo.teamName}</strong></p>
-          )}
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md w-full">
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          {isLoading ? 'Connecting to Slack...' : 'Successfully Connected to Slack!'}
+        </h1>
         
-        <div className="mt-6 text-left p-4 bg-gray-100 rounded-lg">
-          <h2 className="text-lg font-semibold mb-2">What happened?</h2>
-          <p className="mb-4">
-            The OAuth flow has completed successfully. Your access token has been 
-            stored securely in the server's memory and in your browser's localStorage.
-          </p>
-          <p className="mb-4">
-            {isLoading ? 'Syncing token information...' : error ? 'Failed to sync token information.' : 'Token information synced successfully.'}
-          </p>
-          <p className="mb-4">
-            You will be automatically redirected to the home page in 5 seconds, or
-            you can click the button below to return immediately.
-          </p>
-          <p>
-            <strong>Note:</strong> This token is stored in your browser's localStorage
-            and in server memory. In a production application, tokens would be stored 
-            in a database.
-          </p>
-        </div>
-        
-        <button 
-          onClick={() => window.location.href = '/'}
-          className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-6"
-        >
-          Return to Home
-        </button>
+        {isLoading ? (
+          <div className="flex justify-center my-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        ) : (
+          <>
+            <div className="text-center mb-6">
+              <p className="text-green-600 dark:text-green-400 text-lg mb-2">✓ Authentication successful</p>
+              {teamName && (
+                <p className="text-gray-600 dark:text-gray-300">
+                  Connected to workspace: <strong>{teamName}</strong>
+                </p>
+              )}
+            </div>
+            
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Your Slack workspace is now connected to the Pizza App. You can now use Slack for human approvals when ordering pizzas.
+            </p>
+            
+            <div className="flex justify-center">
+              <Link 
+                href="/"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+              >
+                Return to Home
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

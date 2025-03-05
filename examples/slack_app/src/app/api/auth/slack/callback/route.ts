@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { installer } from '@/lib/slack';
 import { storeToken } from '@/lib/token-store';
 
 export async function GET(request: NextRequest) {
@@ -62,21 +61,27 @@ export async function GET(request: NextRequest) {
     console.log('Authentication successful!');
     console.log('Access token received for team:', data.team?.name || 'Unknown team');
     
-    // Store token in memory (server-side only)
+    // Store token in database
     const tokenData = {
       accessToken: data.access_token,
+      botToken: data.access_token, // Store the bot token (same as access token for bot installations)
       teamId: data.team?.id,
       teamName: data.team?.name,
       botUserId: data.bot_user_id,
     };
     
-    storeToken(tokenData);
+    const stored = await storeToken(tokenData);
+    
+    if (!stored) {
+      console.error('Failed to store token in database');
+      return NextResponse.redirect(new URL('/auth/error?error=token_storage_failed', baseUrl));
+    }
     
     // Double-check that the token was stored
     console.log('Token stored, redirecting to success page');
     
-    // Redirect to a special callback page that will store the token in localStorage
-    return NextResponse.redirect(new URL(`/auth/callback?token=${encodeURIComponent(JSON.stringify(tokenData))}`, baseUrl));
+    // Redirect to success page
+    return NextResponse.redirect(new URL('/auth/success', baseUrl));
   } catch (error: any) {
     console.error('Error handling Slack callback:', error);
     console.error('Error details:', {

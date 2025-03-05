@@ -10,9 +10,27 @@ services:
       - .:/app
       - /app/node_modules
       - /app/.next
+      - /app/prisma/generated
     env_file:
       - .env.local
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/slackapp?schema=public
     command: npm run dev
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=slackapp
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

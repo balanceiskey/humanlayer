@@ -1,63 +1,32 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function CallbackPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const [redirecting, setRedirecting] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(true);
 
   useEffect(() => {
-    try {
-      // Get token from URL parameters
-      const tokenParam = searchParams.get('token');
-      
-      if (tokenParam) {
-        // Store token in localStorage
-        const tokenData = JSON.parse(decodeURIComponent(tokenParam));
-        localStorage.setItem('slackToken', JSON.stringify(tokenData));
-        console.log('Token successfully stored in localStorage:', tokenData);
-        
-        // Redirect to success page
-        window.location.href = '/auth/success';
-      } else {
-        setError('No token found in URL parameters');
-        setRedirecting(false);
-      }
-    } catch (error) {
-      console.error('Error storing token:', error);
-      setError('Error storing token: ' + (error instanceof Error ? error.message : String(error)));
-      setRedirecting(false);
-    }
-  }, [searchParams]);
-
-  if (error) {
-    return (
-      <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
-        <div className="max-w-md mx-auto text-center mt-16">
-          <div className="bg-red-100 text-red-800 p-4 rounded-lg mb-6">
-            <h1 className="text-2xl font-bold mb-2">Error</h1>
-            <p>{error}</p>
-          </div>
-          <button 
-            onClick={() => window.location.href = '/'}
-            className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-6"
-          >
-            Return to Home
-          </button>
-        </div>
-      </div>
-    );
-  }
+    // Redirect to success page
+    router.replace('/auth/success');
+  }, [router]);
 
   return (
-    <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
-      <div className="max-w-md mx-auto text-center mt-16">
-        <div className="bg-blue-100 text-blue-800 p-4 rounded-lg mb-6">
-          <h1 className="text-2xl font-bold mb-2">Processing...</h1>
-          <p>Storing authentication information and redirecting...</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md w-full">
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          Completing Authentication...
+        </h1>
+        
+        <div className="flex justify-center my-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
+        
+        <p className="text-center text-gray-600 dark:text-gray-300">
+          Please wait while we complete the authentication process.
+        </p>
       </div>
     </div>
   );

@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from '@/lib/token-store';
 
 export async function GET(request: NextRequest) {
-  const token = getToken();
+  const token = await getToken();
   
   if (token) {
-    // Return token info but not the actual token for security
+    // Return token info but not the actual tokens for security
     return NextResponse.json({
       hasToken: true,
-      accessToken: token.accessToken, // Only sent to client during initial setup
       teamId: token.teamId,
       teamName: token.teamName,
-      botUserId: token.botUserId
+      botUserId: token.botUserId,
+      channelId: token.channelId
     });
   } else {
     return NextResponse.json({

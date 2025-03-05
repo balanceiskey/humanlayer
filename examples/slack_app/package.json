@@ -6,11 +6,19 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
   },
   "dependencies": {
+    "@prisma/client": "^5.10.2",
     "@slack/bolt": "^4.2.1",
     "@slack/oauth": "^3.0.2",
+    "humanlayer": "^0.7.5",
     "next": "15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -23,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
+    "prisma": "^5.10.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

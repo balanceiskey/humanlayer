@@ -34,3 +34,30 @@ To build for production:
 docker build -t nextjs-app .
 docker run -p 3000:3000 nextjs-app
 ```
+
+## Alpine Dependencies
+
+- For Prisma to work correctly in Alpine, use `apk add --no-cache openssl` instead of `openssl1.1-compat`
+- The openssl package is required for Prisma's cryptographic operations
+- Using `openssl1.1-compat` may cause build failures in newer Alpine versions
+
+## Prisma Setup
+
+- When using Prisma in Docker, the schema file must be copied before running `npm ci`
+- The Dockerfile should copy the Prisma schema file separately before installing dependencies:
+  ```dockerfile
+  # Copy package files
+  COPY package.json package-lock.json* ./
+  
+  # Copy prisma schema first
+  COPY prisma/schema.prisma ./prisma/
+  
+  # Install dependencies
+  RUN npm ci
+  ```
+- This ensures the Prisma client can be generated during the postinstall script
+- After copying all files, regenerate the Prisma client to ensure it's up to date:
+  ```dockerfile
+  # Regenerate Prisma client after copying all files
+  RUN npx prisma generate
+  ```
