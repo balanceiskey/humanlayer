@@ -89,7 +89,7 @@ export default async function Home() {
             <pre className="bg-gray-100 dark:bg-gray-800 p-3 rounded mt-2 overflow-x-auto">
               <code>docker-compose up</code>
             </pre>
-            <p className="mt-3">Your Slack app setup guide is now running at <a href="http://localhost:3000" className="text-blue-600 dark:text-blue-400 hover:underline">http://localhost:3000</a></p>
+            <p className="mt-3">Your Slack app setup guide is now running at <a href="http://localhost:3100" className="text-blue-600 dark:text-blue-400 hover:underline">http://localhost:3100</a></p>
           </section>
         </div>
       </main>

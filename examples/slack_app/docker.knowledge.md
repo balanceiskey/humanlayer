@@ -16,7 +16,7 @@
 ## Development Workflow
 
 - Run `docker-compose up` to start the development environment
-- The app will be available at http://localhost:3000
+- The app will be available at http://localhost:3100
 - Changes to the code will trigger hot-reloading
 - Node modules are stored in a Docker volume to improve performance
 
@@ -24,7 +24,7 @@
 
 - The Docker setup is configured for hot reloading with Next.js
 - `WATCHPACK_POLLING=true` is set in the environment to ensure file changes are detected
-- Port 3001 is exposed for Fast Refresh WebSocket connections
+- Port 3101 is exposed for Fast Refresh WebSocket connections
 - Volume mounts are configured to preserve node_modules and .next directories while allowing source code changes
 
 ## Production Build
@@ -32,7 +32,7 @@
 To build for production:
 ```bash
 docker build -t nextjs-app .
-docker run -p 3000:3000 nextjs-app
+docker run -p 3100:3000 nextjs-app
 ```
 
 ## Alpine Dependencies

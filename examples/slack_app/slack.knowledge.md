@@ -8,7 +8,7 @@
 
 ## Environment Configuration
 
-- `NEXT_PUBLIC_APP_URL` - Base URL for the application (default: http://localhost:3000)
+- `NEXT_PUBLIC_APP_URL` - Base URL for the application (default: http://localhost:3100)
 - `NEXT_PUBLIC_APP_URL_OVERRIDE` - Override URL for Slack callbacks (ngrok URL)
 - The application uses the override URL if available, otherwise falls back to the default URL
 

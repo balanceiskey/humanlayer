@@ -27,14 +27,14 @@ This is a [Next.js](https://nextjs.org) project that provides a step-by-step gui
    docker-compose up
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the guide.
+5. Open [http://localhost:3100](http://localhost:3100) with your browser to see the guide.
 
 ### Using ngrok for HTTPS
 
 Slack requires HTTPS for callback URLs. We're using ngrok to provide a secure HTTPS URL for local development:
 
 1. The app is configured to use `https://sweet-trusting-caribou.ngrok-free.app` as the public URL
-2. Make sure this ngrok tunnel is running and pointing to your local server (port 3000)
+2. Make sure this ngrok tunnel is running and pointing to your local server (port 3100)
 3. In your Slack app settings, use `https://sweet-trusting-caribou.ngrok-free.app/api/auth/slack/callback` as the OAuth Redirect URL
 
 ### Development without Docker
@@ -51,7 +51,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the guide.
+Open [http://localhost:3100](http://localhost:3100) with your browser to see the guide.
 
 ## Environment Variables
 

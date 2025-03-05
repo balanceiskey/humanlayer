@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "3000:3000"
-      - "3001:3001"
+      - "3100:3000"
+      - "3101:3001"
     volumes:
       - .:/app
       - /app/node_modules
@@ -24,7 +24,7 @@ services:
   postgres:
     image: postgres:14
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

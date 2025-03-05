@@ -1,7 +1,7 @@
 'use server'
 
 import { clearToken, getToken, hasToken, testToken } from "@/lib/token-store";
-import { requireApproval, getSlackContactChannel } from "@/lib/humanlayer";
+import { getHumanLayer, getSlackContactChannel, requireApproval } from "@/lib/humanlayer";
 
 export async function getSlackStatus() {
   const hasStoredToken = await hasToken();
@@ -36,10 +36,10 @@ export async function testSlackToken() {
 // Define the actual pizza ordering function that will be wrapped with approval
 async function processPizzaOrder(orderData: Record<string, any>) {
   console.log('Processing pizza order:', orderData);
-  
+
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
-  
+
   // Return mock response
   return {
     success: true,
@@ -48,9 +48,6 @@ async function processPizzaOrder(orderData: Record<string, any>) {
     message: "Your pizza order has been placed successfully!"
   };
 }
-
-// Wrap the pizza order function with HumanLayer approval
-const approvedPizzaOrder = requireApproval(processPizzaOrder);
 
 export async function orderPizza(formData: FormData) {
   // Convert FormData to a regular object
@@ -66,19 +63,26 @@ export async function orderPizza(formData: FormData) {
       orderData[key] = value;
     }
   });
-  
+
   try {
     // Get the token from the database
     const token = await getToken();
-    
+
+    // Get HumanLayer instance
+    const hl = getHumanLayer();
+
     // Use the token and channel ID if available
     const contactChannel = token?.botToken && token?.channelId
       ? getSlackContactChannel(token.channelId, token.botToken)
       : undefined;
-    
+
+    // Create a wrapped function with HumanLayer approval
+    const approvedPizzaOrder = hl.requireApproval(contactChannel)(processPizzaOrder);
+
+
     // Call the approved function with the order data
-    // If contactChannel is undefined, it will fall back to CLI approval
     const result = await approvedPizzaOrder(orderData);
+
     return result;
   } catch (error) {
     console.error('Error ordering pizza:', error);

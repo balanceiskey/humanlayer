@@ -15,7 +15,7 @@
 ## Slack Channel Integration
 
 - The app uses client-provided tokens for Slack integration, not environment variables
-- Tokens are stored in localStorage on the client side
+- Tokens are stored in localStorage on the client side and in the database
 - The token and channel ID are passed with each pizza order request
 - No incoming webhooks are used - all communication uses the bot token
 
@@ -25,6 +25,14 @@
 - The token is passed with each request that needs it
 - The server doesn't rely on environment variables for Slack tokens
 - Channel IDs are discovered during the test connection process
+
+## HumanLayer Usage Pattern
+
+- Create a HumanLayer instance with `getHumanLayer()`
+- Create a Slack contact channel with `getSlackContactChannel(channelId, token)`
+- Wrap functions with approval using `hl.requireApproval(contactChannel)(functionToWrap)`
+- The wrapped function will require human approval before execution
+- If no contact channel is provided, it will fall back to CLI approval
 
 ## Testing the Integration
 
