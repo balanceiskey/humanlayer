@@ -38,22 +38,22 @@ const UNPROTECTED_COMMANDS = ['config', 'login']
 program.hook('preAction', async (thisCmd, actionCmd) => {
   // Get the full command path by traversing up the command hierarchy
   const getCommandPath = (cmd: Command): string[] => {
-    const path: string[] = [cmd.name()];
-    let parent = cmd.parent;
+    const path: string[] = [cmd.name()]
+    let parent = cmd.parent
     while (parent && parent.name() !== 'humanlayer') {
-      path.unshift(parent.name());
-      parent = parent.parent;
+      path.unshift(parent.name())
+      parent = parent.parent
     }
-    return path;
-  };
+    return path
+  }
 
-  const commandPath = getCommandPath(actionCmd);
-  const isUnprotected = commandPath.some(cmd => UNPROTECTED_COMMANDS.includes(cmd));
+  const commandPath = getCommandPath(actionCmd)
+  const isUnprotected = commandPath.some(cmd => UNPROTECTED_COMMANDS.includes(cmd))
 
   if (!isUnprotected) {
-    console.log("Authenticating...")
-    await authenticate(true);
-  } 
+    console.log('Authenticating...')
+    await authenticate(true)
+  }
 })
 
 // By default, we run the TUI.
@@ -76,26 +76,26 @@ program
   .description('Configuration management')
   // config edit
   .command('edit')
-    .description('Edit configuration file in $EDITOR')
-    .option('--config-file <path>', 'Path to config file')
-    .action((options) => {
-      const editor = process.env.EDITOR || 'vi';
-      const configFile = options.configFile || getDefaultConfigPath();
-      spawn(editor, [configFile], { stdio: 'inherit' });
-    })
+  .description('Edit configuration file in $EDITOR')
+  .option('--config-file <path>', 'Path to config file')
+  .action(options => {
+    const editor = process.env.EDITOR || 'vi'
+    const configFile = options.configFile || getDefaultConfigPath()
+    spawn(editor, [configFile], { stdio: 'inherit' })
+  })
   // config show
   .command('show')
-    .description('Show current configuration')
-    .option('--config-file <path>', 'Path to config file')
-    .option('--slack-channel <id>', 'Slack channel or user ID')
-    .option('--slack-bot-token <token>', 'Slack bot token')
-    .option('--slack-context <context>', 'Context about the Slack channel or user')
-    .option('--slack-thread-ts <ts>', 'Slack thread timestamp')
-    .option('--slack-blocks [boolean]', 'Use experimental Slack blocks')
-    .option('--email-address <email>', 'Email address to contact')
-    .option('--email-context <context>', 'Context about the email recipient')
-    .option('--json', 'Output as JSON with masked keys')
-    .action(configShowCommand)
+  .description('Show current configuration')
+  .option('--config-file <path>', 'Path to config file')
+  .option('--slack-channel <id>', 'Slack channel or user ID')
+  .option('--slack-bot-token <token>', 'Slack bot token')
+  .option('--slack-context <context>', 'Context about the Slack channel or user')
+  .option('--slack-thread-ts <ts>', 'Slack thread timestamp')
+  .option('--slack-blocks [boolean]', 'Use experimental Slack blocks')
+  .option('--email-address <email>', 'Email address to contact')
+  .option('--email-context <context>', 'Context about the email recipient')
+  .option('--json', 'Output as JSON with masked keys')
+  .action(configShowCommand)
 
 program
   .command('contact_human')

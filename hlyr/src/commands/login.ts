@@ -83,12 +83,12 @@ export async function loginCommand(options: LoginOptions): Promise<void> {
     }
 
     const oldConfig = resolveFullConfig({})
-    let project;
+    let project
     try {
-       project = await getProject(oldConfig.api_base_url, token.trim())
+      project = await getProject(oldConfig.api_base_url, token.trim())
     } catch (error) {
       console.error(chalk.red(`Returned token was invalid.`))
-      process.exit(1);
+      process.exit(1)
     }
 
     const newConfig = {
