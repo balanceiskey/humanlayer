@@ -26,7 +26,7 @@ interface ThemeRegistry {
 }
 
 interface TokenMapping {
-  colorMappings: Record<string, string>  // vscodeToken → cssVariable
+  colorMappings: Record<string, string>  // cssVariable → vscodeToken
   tokenColorMappings: Record<string, string>  // Future use
   fallbacks: {
     dark: { icon: string }
@@ -86,8 +86,8 @@ function applyMappings(
 ): ExtractedTheme {
   const cssVariables = new Map<string, string>()
 
-  // Apply color mappings
-  for (const [vscodeToken, cssVariable] of Object.entries(mappings.colorMappings)) {
+  // Apply color mappings (cssVariable → vscodeToken)
+  for (const [cssVariable, vscodeToken] of Object.entries(mappings.colorMappings)) {
     const vscodeColor = themeJson.colors[vscodeToken]
     if (vscodeColor) {
       cssVariables.set(cssVariable, vscodeColor)

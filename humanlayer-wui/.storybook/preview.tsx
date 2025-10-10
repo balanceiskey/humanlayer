@@ -2,6 +2,7 @@ import type { Preview } from '@storybook/react'
 import '../src/App.css'
 import React from 'react'
 import { useEffect } from 'react'
+import { vscodeThemes } from '../src/components/vscode-themes.generated'
 
 // Mock Tauri
 if (typeof window !== 'undefined') {
@@ -11,8 +12,8 @@ if (typeof window !== 'undefined') {
   }
 }
 
-// Define all available themes from App.css
-const themes = [
+// Manual themes from App.css
+const manualThemes = [
   { value: 'solarized-dark', title: '🌙 Solarized Dark' },
   { value: 'solarized-light', title: '☀️ Solarized Light' },
   { value: 'cappuccino', title: '☕ Cappuccino' },
@@ -27,6 +28,15 @@ const themes = [
   { value: 'rose-pine', title: '🌹 Rosé Pine' },
   { value: 'rose-pine-dawn', title: '🌅 Rosé Pine Dawn' },
   { value: 'rose-pine-moon', title: '🌙 Rosé Pine Moon' },
+]
+
+// Combine manual themes with auto-generated VSCode themes
+const themes = [
+  ...manualThemes,
+  ...vscodeThemes.map(t => ({
+    value: t.value,
+    title: `${t.type === 'dark' ? '🌙' : '☀️'} ${t.label}`,
+  })),
 ]
 
 const preview: Preview = {

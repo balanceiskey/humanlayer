@@ -47,8 +47,8 @@ const handcraftedThemes: { value: Theme; label: string; icon: React.ComponentTyp
   { value: 'vesper', label: 'Vesper', icon: MoonStar },
 ]
 
-// Merge with extracted VS Code themes
-const themes = [...handcraftedThemes, ...vscodeThemes]
+// Merge with extracted VS Code themes and sort alphabetically by label
+const themes = [...handcraftedThemes, ...vscodeThemes].sort((a, b) => a.label.localeCompare(b.label))
 
 export function ThemeSelector() {
   const { theme, setTheme } = useTheme()
