@@ -15,7 +15,8 @@
     "check": "bun run format:check && bun run lint && bun run typecheck",
     "test": "bun test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "extract-vscode-themes": "bun run scripts/extract-vscode-themes.ts"
   },
   "dependencies": {
     "@humanlayer/hld-sdk": "file:../hld/sdk/typescript",
@@ -52,6 +53,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
+    "jsonc-parser": "^3.3.1",
     "lodash.keyby": "^4.6.0",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.528.0",

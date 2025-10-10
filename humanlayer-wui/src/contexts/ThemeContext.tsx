@@ -1,26 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { syncWindowBackgroundWithTheme } from '@/lib/windowTheme'
 
-export type Theme =
-  | 'solarized-dark'
-  | 'solarized-light'
-  | 'cappuccino'
-  | 'catppuccin'
-  | 'high-contrast'
-  | 'framer-dark'
-  | 'framer-light'
-  | 'gruvbox-dark'
-  | 'gruvbox-light'
-  | 'monokai'
-  | 'launch'
-  | 'rose-pine'
-  | 'rose-pine-dawn'
-  | 'rose-pine-moon'
-  | 'tokyo-night'
-  | 'tokyo-night-storm'
-  | 'bubblegum'
-  | 'l33t'
-  | 'vesper'
+// Allow any theme ID to support dynamically generated VS Code themes
+export type Theme = string
 
 interface ThemeContextType {
   theme: Theme

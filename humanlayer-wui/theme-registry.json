@@ -1,0 +1,10 @@
+{
+  "themes": [
+    {
+      "repo": "https://github.com/enkia/tokyo-night-vscode-theme",
+      "themes": [
+        "themes/tokyo-night-color-theme.json"
+      ]
+    }
+  ]
+}

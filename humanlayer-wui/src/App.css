@@ -1,9 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './styles/markdown-terminal.css';
 @import './styles/react-syntax-highlighter-terminal.css';
 @import './styles/tiptap-editor.css';
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -51,7 +51,7 @@
   --terminal-bg: #002b36;
   --terminal-bg-alt: #073642;
   --terminal-fg: #839496;
-  --terminal-fg-dim: #586e75;
+  --terminal-fg-dim: #0d0d0d;
   --terminal-accent: #268bd2;
   --terminal-accent-dim: rgba(38, 139, 210, 0.3);
   --terminal-accent-alt: #2aa198;
@@ -997,3 +997,6 @@
     animation: bounce-fast 0.8s ease-in-out infinite;
   }
 }
+
+/* VS Code extracted themes - imported last to override defaults */
+@import './styles/vscode-themes.generated.css';

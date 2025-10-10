@@ -30,3 +30,6 @@ src-tauri/tauri.conf.local.json
 src-tauri/bin/
 !src-tauri/bin/.gitkeep
 storybook-static/
+
+# VS Code theme clones (regenerated on build)
+themeClones/

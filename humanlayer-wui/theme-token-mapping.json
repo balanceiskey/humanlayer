@@ -1,0 +1,14 @@
+{
+  "colorMappings": {
+    "editor.foreground": "--terminal-fg"
+  },
+  "tokenColorMappings": {},
+  "fallbacks": {
+    "dark": {
+      "icon": "moon"
+    },
+    "light": {
+      "icon": "sun"
+    }
+  }
+}

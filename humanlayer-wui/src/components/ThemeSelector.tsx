@@ -23,8 +23,10 @@ import { KeyboardShortcut } from './HotkeyPanel'
 import { HotkeyScopeBoundary } from './HotkeyScopeBoundary'
 import { HOTKEY_SCOPES } from '../hooks/hotkeys/scopes'
 import { useHotkeyUnicodeChars } from '../hooks/useHotkeyUnicodeChars'
+import { vscodeThemes } from './vscode-themes.generated'
 
-const themes: { value: Theme; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+// Existing hand-crafted themes
+const handcraftedThemes: { value: Theme; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { value: 'solarized-dark', label: 'Solarized Dark', icon: Moon },
   { value: 'solarized-light', label: 'Solarized Light', icon: Sun },
   { value: 'cappuccino', label: 'Cappuccino', icon: Coffee },
@@ -44,6 +46,9 @@ const themes: { value: Theme; label: string; icon: React.ComponentType<{ classNa
   { value: 'l33t', label: 'L33t', icon: Terminal },
   { value: 'vesper', label: 'Vesper', icon: MoonStar },
 ]
+
+// Merge with extracted VS Code themes
+const themes = [...handcraftedThemes, ...vscodeThemes]
 
 export function ThemeSelector() {
   const { theme, setTheme } = useTheme()

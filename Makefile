@@ -100,6 +100,11 @@ generate-sdks: ## Regenerate all SDKs from OpenAPI specs
 	@$(MAKE) -C humanlayer-wui install
 	@echo "SDK regeneration complete!"
 
+.PHONY: extract-vscode-themes
+extract-vscode-themes: ## Extract VS Code themes for WUI
+	@echo "Extracting VS Code themes..."
+	cd humanlayer-wui && bun run extract-vscode-themes
+
 .PHONY: help
 help:
 	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
