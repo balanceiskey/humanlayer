@@ -113,8 +113,8 @@ async function main() {
   const registryPath = resolve(__dirname, '..', 'theme-registry.json')
   const mappingPath = resolve(__dirname, '..', 'theme-token-mapping.json')
 
-  const registry: ThemeRegistry = JSON.parse(await readFile(registryPath, 'utf-8'))
-  const mappings: TokenMapping = JSON.parse(await readFile(mappingPath, 'utf-8'))
+  const registry: ThemeRegistry = parse(await readFile(registryPath, 'utf-8'))
+  const mappings: TokenMapping = parse(await readFile(mappingPath, 'utf-8'))
 
   console.log(`📋 Found ${registry.themes.length} theme repositories\n`)
 

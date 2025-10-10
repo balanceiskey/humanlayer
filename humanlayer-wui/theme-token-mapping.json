@@ -6,7 +6,9 @@
     "--terminal-fg-dim": "terminal.foreground",
     "--terminal-accent": "terminal.ansiBlue",
     "--terminal-accent-alt": "terminal.ansiCyan",
-    "--terminal-border": "editorGroup.border",
+    // Still playing with this
+    // "--terminal-border": "editorGroup.border",
+    "--terminal-border": "editorLineNumber.foreground",
     "--terminal-selection": "editor.selectionBackground",
     "--terminal-success": "terminal.ansiGreen",
     "--terminal-warning": "terminal.ansiYellow",

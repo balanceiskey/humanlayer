@@ -26,7 +26,11 @@ import { useHotkeyUnicodeChars } from '../hooks/useHotkeyUnicodeChars'
 import { vscodeThemes } from './vscode-themes.generated'
 
 // Existing hand-crafted themes
-const handcraftedThemes: { value: Theme; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+const handcraftedThemes: {
+  value: Theme
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+}[] = [
   { value: 'solarized-dark', label: 'Solarized Dark', icon: Moon },
   { value: 'solarized-light', label: 'Solarized Light', icon: Sun },
   { value: 'cappuccino', label: 'Cappuccino', icon: Coffee },
@@ -193,7 +197,11 @@ export function ThemeSelector() {
                   }`}
                 >
                   <themeOption.icon className="w-3 h-3" />
-                  <span>{themeOption.label}</span>
+                  <span>
+                    {themeOption.label}
+                    {/* Remove post migration */}
+                    {themeOption.value.indexOf('vscode') !== -1 && ' (VSCode)'}
+                  </span>
                 </button>
               ))}
             </div>

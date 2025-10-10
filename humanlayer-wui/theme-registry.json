@@ -3,7 +3,16 @@
     {
       "repo": "https://github.com/enkia/tokyo-night-vscode-theme",
       "themes": [
-        "themes/tokyo-night-light-color-theme.json"
+        "themes/tokyo-night-color-theme.json",
+        "themes/tokyo-night-light-color-theme.json",
+        "themes/tokyo-night-storm-color-theme.json"
+      ]
+    }, {
+      "repo": "https://github.com/rose-pine/vscode",
+      "themes": [
+        "themes/rose-pine-color-theme.json",
+        "themes/rose-pine-dawn-color-theme.json",
+        "themes/rose-pine-moon-color-theme.json"
       ]
     }
   ]
